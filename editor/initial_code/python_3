@@ -1,11 +1,13 @@
-def sum_two(a, b):
-    """
-        sums two passed arguments
-    """
-    return None
+import sendgrid
+
+API_KEY = 'Registrate your own key'
+
+sg = sendgrid.SendGridAPIClient(apikey=API_KEY)
+
+def best_country(str_country):
+    return 'UA'
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert sum_two(3, 2) == 5, "First"
-    assert sum_two(5, 7) == 12, "Second"
-    print('Done')
+    print('Your best country in 2016-01-01 was ' + best_country('2016-01-01'))
+    print('Check your results')
