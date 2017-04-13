@@ -4,7 +4,7 @@ API_KEY = 'Registrate your own key'
 
 sg = sendgrid.SendGridAPIClient(apikey=API_KEY)
 
-def best_country(str_country):
+def best_country(str_date):
     return 'UA'
 
 if __name__ == '__main__':
