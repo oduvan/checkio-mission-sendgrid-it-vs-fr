@@ -27,9 +27,17 @@ checkio.referee.cover_codes
 """
 
 SENDGRID_COVER = '''
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 import sendgrid
 from sendgrid.helpers.mail import *
-import sendgrid.cio as cio
+try:
+    import sendgrid.cio as cio
+except ImportError:
+    import cio
 from datetime import datetime, timedelta
 COUNTRIES = ['AM', 'AP', 'AR', 'AT', 'AU', 'AZ', 'BA', 'BD', 'BE', 'BF', 'BG', 'BO', 'BR', 'BY', 'CA', 'CH', 'CL', 'CN', 'CO', 'CR', 'CY', 'CZ', 'DE', 'DK', 'DO', 'DZ', 'EC', 'EE', 'EG', 'ES', 'EU', 'FI', 'FR', 'GB', 'GE', 'GR', 'GT', 'HK', 'HR', 'HU', 'ID', 'IE', 'IL', 'IN', 'IQ', 'IT', 'JM', 'JP', 'KE', 'KR', 'KW', 'KZ', 'LK', 'LT', 'LU', 'MA', 'MD', 'ME', 'MM', 'MO', 'MX', 'MY', 'NG', 'NL', 'NO', 'NZ', 'OM', 'PE', 'PH', 'PK', 'PL', 'PT', 'RO', 'RS', 'RU', 'SA', 'SD', 'SE', 'SG', 'SI', 'SK', 'TH', 'TN', 'TR', 'TW', 'UA', 'US', 'UZ', 'VE', 'VN', 'ZA']
 
@@ -71,16 +79,28 @@ class MockStatsGet(cio.MockSimple):
             from urlparse import parse_qs
         except ImportError:
             from urllib.parse import parse_qs
-        data = parse_qs(request.get_full_url().split('?')[1])
+        full_url = request.get_full_url()
+        if '?' not in full_url:
+            raise HTTPError(request.get_full_url(), 400, 'BAD REQUEST', '', StringIO())
+
+        data = parse_qs(full_url.split('?')[1])
 
         start_date = end_date = limit = offset = None
         if 'start_date' in data:
-            start_date = datetime.strptime(data['start_date'][0], '%Y-%m-%d')
+            try:
+                start_date = datetime.strptime(data['start_date'][0], '%Y-%m-%d')
+            except ValueError:
+                raise HTTPError(request.get_full_url(), 400, 'BAD REQUEST', '', StringIO())
         else:
-            raise HTTPError(request.get_full_url(), 400, 'BAD REQUEST', '', '')
+            raise HTTPError(request.get_full_url(), 400, 'BAD REQUEST', '', StringIO())
 
         if 'end_date' in data:
-            end_date = datetime.strptime(data['end_date'][0], '%Y-%m-%d')
+            try:
+                end_date = datetime.strptime(data['end_date'][0], '%Y-%m-%d')
+            except ValueError:
+                raise HTTPError(request.get_full_url(), 400, 'BAD REQUEST', '', StringIO())
+        else:
+            end_date = datetime.now()
 
         data = self.time_period_data(start_date, end_date)
 
