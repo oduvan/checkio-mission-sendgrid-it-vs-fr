@@ -14,6 +14,23 @@
 </div>
 <div class="question-answer">
     <div class="question">
+        Can you show me how can I do it on Python?
+    </div>
+    <div class="answer">
+    <p>Sure. This example shows statistics for the first 7 days of the year.</p>
+<pre class="brush: python">
+response = sg.client.geo.stats.get(query_params={
+    'start_date':'2016-01-01',
+    'end_date': '2016-01-07'
+})
+import json
+
+print(json.loads(response.body))
+</pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
         What should I do with dates?
     </div>
     <div class="answer">
