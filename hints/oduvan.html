@@ -35,6 +35,50 @@ print(json.loads(response.body))
     </div>
     <div class="answer">
         If start date and end date are the same you will receive information for one day only. And this is what what we are looking for.
+<pre class="brush: python">
+response = sg.client.geo.stats.get(query_params={
+    'start_date':str_date,
+    'end_date': str_date
+})
+</pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        What can I do with those data after?
+    </div>
+    <div class="answer">
+        <p>Here is a sample of data you might get:</p>
+<pre class="brush: python">
+[{
+    'date': '2016-01-01',
+    'stats': [
+        {
+         'type': 'country', 
+         'name': 'AT',
+         'metrics': {'clicks': 1, 'opens': 1, 'unique_clicks': 1, 'unique_opens': 1}
+        },
+        {
+         'type': 'country',
+         'name': 'AU',
+         'metrics': {'clicks': 0, 'opens': 31, 'unique_clicks': 0, 'unique_opens': 22}
+        }
+    ]
+}]
+</pre>
+    <p>You should go through the list 'stats' and find value of 'name' with maximum 'unique_clicks'.</p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        Help me to say it on Python.
+    </div>
+    <div class="answer">
+        <p>Try something like this. It should help.</p>
+<pre class="brush: python">
+max_data = max(data[0]['stats'], key=lambda a: a['metrics']['unique_clicks'])
+return max_data['name']
+</pre>
     </div>
 </div>
 </body>
