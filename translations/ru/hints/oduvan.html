@@ -1,0 +1,79 @@
+<body data-author="oduvan">
+<div class="question-answer">
+    <div class="question">
+        Как здесь начать?
+    </div>
+    <div class="answer">
+        Вам нужно использовать <a href="https://py.checkio.org/projects/open/sendgrid/hint-statistics-advanced/">/geo/stats</a>, чтобы получить информацию о кликах и открытых письмах, разгруппированым по странам. API содержит двузначный код страны; это то, что мы ищем.
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        Можете ли Вы показать, как я могу это сделать в Python?
+    </div>
+    <div class="answer">
+    <p>Конечно. В этом примере показаны статистические данные за первые 7 дней года.</p>
+<pre class="brush: python">
+response = sg.client.geo.stats.get(query_params={
+    'start_date':'2016-01-01',
+    'end_date': '2016-01-07'
+})
+import json
+
+print(json.loads(response.body))
+</pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        Что мне делать с датами?
+    </div>
+    <div class="answer">
+        Если дата начала и дата окончания совпадают, то Вы будете получать информацию только за один день. И это то, что мы ищем.
+<pre class="brush: python">
+response = sg.client.geo.stats.get(query_params={
+    'start_date':str_date,
+    'end_date': str_date
+})
+</pre>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        Что я потом могу сделать с этими данными?
+    </div>
+    <div class="answer">
+        <p>Вот пример данных, которые Вы можете получить:</p>
+<pre class="brush: python">
+[{
+    'date': '2016-01-01',
+    'stats': [
+        {
+         'type': 'country', 
+         'name': 'AT',
+         'metrics': {'clicks': 1, 'opens': 1, 'unique_clicks': 1, 'unique_opens': 1}
+        },
+        {
+         'type': 'country',
+         'name': 'AU',
+         'metrics': {'clicks': 0, 'opens': 31, 'unique_clicks': 0, 'unique_opens': 22}
+        }
+    ]
+}]
+</pre>
+    <p>Вы должны просмотреть список 'stats' (статистика) и найти значение 'name' с максимальными 'unique_clicks' (оригинальными кликами).</p>
+    </div>
+</div>
+<div class="question-answer">
+    <div class="question">
+        Помогите мне написать это в Python.
+    </div>
+    <div class="answer">
+        <p>Попробуйте что-то в этом роде. Должно помочь.</p>
+<pre class="brush: python">
+max_data = max(data[0]['stats'], key=lambda a: a['metrics']['unique_clicks'])
+return max_data['name']
+</pre>
+    </div>
+</div>
+</body>
