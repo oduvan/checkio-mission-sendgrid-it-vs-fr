@@ -9,7 +9,7 @@
 </div>
 <div class="question-answer">
     <div class="question">
-        Can you show me how can I do it on Python?
+        Can you show me how can I do it in Python?
     </div>
     <div class="answer">
     <p>Sure. This example shows statistics for the first 7 days of the year.</p>
@@ -29,7 +29,7 @@ print(json.loads(response.body))
         What should I do with dates?
     </div>
     <div class="answer">
-        If start date and end date are the same you will receive information for one day only. And this is what what we are looking for.
+        If the start date and the end date are the same you will receive information for one day only. And this is what what we are looking for.
 <pre class="brush: python">
 response = sg.client.geo.stats.get(query_params={
     'start_date':str_date,
@@ -40,7 +40,7 @@ response = sg.client.geo.stats.get(query_params={
 </div>
 <div class="question-answer">
     <div class="question">
-        What can I do with those data after?
+        What can I do with that data after?
     </div>
     <div class="answer">
         <p>Here is a sample of data you might get:</p>
@@ -61,12 +61,12 @@ response = sg.client.geo.stats.get(query_params={
     ]
 }]
 </pre>
-    <p>You should go through the list 'stats' and find value of 'name' with maximum 'unique_clicks'.</p>
+    <p>You should go through the list 'stats' and find a value of 'name' with maximum 'unique_clicks'.</p>
     </div>
 </div>
 <div class="question-answer">
     <div class="question">
-        Help me to say it on Python.
+        Help me to say it in Python.
     </div>
     <div class="answer">
         <p>Try something like this. It should help.</p>
