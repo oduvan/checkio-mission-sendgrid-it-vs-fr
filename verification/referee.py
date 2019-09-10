@@ -32,6 +32,7 @@ try:
 except ImportError:
     from io import StringIO
 
+import json
 import sendgrid
 from sendgrid.helpers.mail import *
 try:

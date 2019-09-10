@@ -2,7 +2,7 @@ import sendgrid
 
 API_KEY = 'Registrate your own key'
 
-sg = sendgrid.SendGridAPIClient(apikey=API_KEY)
+sg = sendgrid.SendGridAPIClient(API_KEY)
 
 def best_country(str_date):
     return 'UA'
